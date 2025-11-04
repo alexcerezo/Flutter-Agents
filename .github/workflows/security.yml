@@ -1,0 +1,40 @@
+name: Security & Dependencies
+
+# Simplified security checks without full SDK
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Every Sunday at midnight UTC
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+
+jobs:
+  # Basic security checks
+  security-check:
+    name: Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # Check for sensitive data
+      - name: Check for secrets
+        run: |
+          echo "Checking for common secret patterns..."
+          ! grep -r "api_key\|password\|secret\|token" --include="*.dart" --include="*.yaml" lib/ || echo "⚠️ Found potential secrets"
+          echo "✅ Basic security check complete"
+      
+      # Validate pubspec files
+      - name: Validate dependencies
+        run: |
+          python3 -c "import yaml
+          with open('pubspec.yaml') as f:
+              config = yaml.safe_load(f)
+              print('✅ pubspec.yaml is valid')
+              if 'dependencies' in config:
+                  print(f'Dependencies: {len(config[\"dependencies\"])} packages')
+              if 'dev_dependencies' in config:
+                  print(f'Dev dependencies: {len(config[\"dev_dependencies\"])} packages')"

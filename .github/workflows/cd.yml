@@ -1,0 +1,28 @@
+name: CD - Continuous Deployment
+
+# Simplified deployment workflow - only runs on main branch
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: cd-deployment
+  cancel-in-progress: false
+
+jobs:
+  # Simple validation before build
+  pre-check:
+    name: Pre-deployment Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Validate configuration
+        run: |
+          echo "✅ Repository checked out"
+          test -f pubspec.yaml && echo "✅ pubspec.yaml exists" || exit 1
+          echo "✅ Ready for deployment"

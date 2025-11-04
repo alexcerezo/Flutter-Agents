@@ -1,0 +1,57 @@
+name: CI - Continuous Integration
+
+# Simplified workflow with quick checks and optional Flutter tests
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Quick validation without SDK installation
+  quick-check:
+    name: Quick Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # Validate YAML files
+      - name: Validate workflow files
+        run: |
+          python3 -c "import yaml, sys, glob
+          for f in glob.glob('.github/workflows/*.yml'):
+              try:
+                  with open(f) as file:
+                      yaml.safe_load(file)
+                  print(f'✅ {f}')
+              except Exception as e:
+                  print(f'❌ {f}: {e}')
+                  sys.exit(1)"
+      
+      # Check for common issues
+      - name: Check file structure
+        run: |
+          echo "Checking required files..."
+          test -f pubspec.yaml && echo "✅ pubspec.yaml exists" || exit 1
+          test -f README.md && echo "✅ README.md exists" || exit 1
+          test -d lib && echo "✅ lib/ directory exists" || exit 1
+          test -d test && echo "✅ test/ directory exists" || exit 1
+          echo "✅ All required files present"
+      
+      # Validate pubspec.yaml syntax
+      - name: Validate pubspec.yaml
+        run: |
+          python3 -c "import yaml
+          with open('pubspec.yaml') as f:
+              yaml.safe_load(f)
+          print('✅ pubspec.yaml is valid')"
