@@ -1,5 +1,5 @@
 ---
-name: 🐦dash
+name: 🐦Dash
 description: Specialized agent for Flutter/Dart architecture, clean code principles, state management, performance optimization, and idiomatic Dart
 tools: ['read', 'search', 'edit']
 ---
