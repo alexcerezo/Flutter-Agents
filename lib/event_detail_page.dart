@@ -170,6 +170,8 @@ class _EventDetailAppBar extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 300,
       pinned: true,
+      backgroundColor: Colors.white,
+      foregroundColor: const Color(0xFF212121),
       flexibleSpace: FlexibleSpaceBar(
         title: Semantics(
           header: true,
@@ -178,7 +180,7 @@ class _EventDetailAppBar extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.black54,
+                color: Colors.black87,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
@@ -186,6 +188,7 @@ class _EventDetailAppBar extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -200,11 +203,11 @@ class _EventDetailAppBar extends StatelessWidget {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
-                  color: Theme.of(context).colorScheme.surfaceVariant,
-                  child: Icon(
+                  color: const Color(0xFFE0E0E0),
+                  child: const Icon(
                     Icons.event,
                     size: 64,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: Color(0xFF757575),
                   ),
                 );
               },
@@ -260,16 +263,22 @@ class _EventDetailContent extends StatelessWidget {
           const SizedBox(height: 24),
 
           // Description
-          Text(
+          const Text(
             'Descripción',
-            style: theme.textTheme.titleLarge?.copyWith(
+            style: TextStyle(
+              fontSize: 20,
               fontWeight: FontWeight.bold,
+              color: Color(0xFF212121),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Text(
             event.description,
-            style: theme.textTheme.bodyLarge,
+            style: const TextStyle(
+              fontSize: 16,
+              height: 1.5,
+              color: Color(0xFF424242),
+            ),
           ),
           const SizedBox(height: 24),
 
@@ -279,10 +288,12 @@ class _EventDetailContent extends StatelessWidget {
 
           // Booking section (only if not sold out)
           if (!event.isSoldOut) ...[
-            Text(
+            const Text(
               'Reservar Entradas',
-              style: theme.textTheme.titleLarge?.copyWith(
+              style: TextStyle(
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: Color(0xFF212121),
               ),
             ),
             const SizedBox(height: 16),
@@ -322,32 +333,39 @@ class _EventDetailContent extends StatelessWidget {
               child: ExcludeSemantics(
                 child: Center(
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.errorContainer,
+                      color: const Color(0xFFFFF5F5),
                       borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: const Color(0xFFFFE0E0),
+                        width: 1,
+                      ),
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Icon(
-                          Icons.error_outline,
-                          size: 48,
-                          color: theme.colorScheme.error,
+                          Icons.event_busy,
+                          size: 56,
+                          color: Color(0xFFF65858),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 12),
                         Text(
                           'Evento Agotado',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            color: theme.colorScheme.error,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color(0xFF212121),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 8),
                         Text(
                           'Lo sentimos, no quedan entradas disponibles.',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onErrorContainer,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF757575),
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
@@ -377,22 +395,25 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Semantics(
       label: '$title: $content',
       child: ExcludeSemantics(
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceVariant,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: const Color(0xFFE0E0E0),
+              width: 1,
+            ),
           ),
           child: Row(
             children: [
               Icon(
                 icon,
-                color: theme.colorScheme.primary,
+                color: const Color(0xFFF65858),
+                size: 22,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -401,15 +422,19 @@ class _InfoCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF757575),
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 4),
                     Text(
                       content,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF212121),
                       ),
                     ),
                   ],
@@ -431,7 +456,6 @@ class _AvailabilityInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final availabilityPercentage =
         (event.availableTickets / event.maxCapacity * 100).round();
 
@@ -441,8 +465,12 @@ class _AvailabilityInfo extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer,
+            color: const Color(0xFFFFF5F5),
             borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: const Color(0xFFFFE0E0),
+              width: 1,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -450,35 +478,40 @@ class _AvailabilityInfo extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Disponibilidad',
-                    style: theme.textTheme.titleMedium?.copyWith(
+                    style: TextStyle(
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
+                      color: Color(0xFF212121),
                     ),
                   ),
                   Text(
                     '${event.availableTickets} / ${event.maxCapacity}',
-                    style: theme.textTheme.titleMedium?.copyWith(
+                    style: const TextStyle(
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
+                      color: Color(0xFFF65858),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
                   value: event.availableTickets / event.maxCapacity,
                   minHeight: 8,
-                  backgroundColor: theme.colorScheme.surfaceVariant,
+                  backgroundColor: const Color(0xFFE0E0E0),
+                  color: const Color(0xFFF65858),
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
                 '$availabilityPercentage% de entradas disponibles',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onPrimaryContainer,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF757575),
                 ),
               ),
             ],
@@ -504,12 +537,11 @@ class _TicketCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: theme.colorScheme.outline),
+        color: Colors.white,
+        border: Border.all(color: const Color(0xFFE0E0E0)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -520,7 +552,11 @@ class _TicketCounter extends StatelessWidget {
             child: const ExcludeSemantics(
               child: Text(
                 'Número de entradas',
-                style: null,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF212121),
+                ),
               ),
             ),
           ),
@@ -537,7 +573,8 @@ class _TicketCounter extends StatelessWidget {
                     }
                   },
                   icon: const Icon(Icons.remove_circle_outline),
-                  color: theme.colorScheme.primary,
+                  color: const Color(0xFFF65858),
+                  iconSize: 28,
                 ),
               ),
               ValueListenableBuilder<int>(
@@ -551,8 +588,10 @@ class _TicketCounter extends StatelessWidget {
                         constraints: const BoxConstraints(minWidth: 40),
                         child: Text(
                           count.toString(),
-                          style: theme.textTheme.titleLarge?.copyWith(
+                          style: const TextStyle(
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
+                            color: Color(0xFF212121),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -572,7 +611,8 @@ class _TicketCounter extends StatelessWidget {
                     }
                   },
                   icon: const Icon(Icons.add_circle_outline),
-                  color: theme.colorScheme.primary,
+                  color: const Color(0xFFF65858),
+                  iconSize: 28,
                 ),
               ),
             ],
@@ -597,13 +637,15 @@ class _TotalPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primaryContainer,
+        color: const Color(0xFFFFF5F5),
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: const Color(0xFFFFE0E0),
+          width: 1,
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -613,7 +655,11 @@ class _TotalPrice extends StatelessWidget {
             child: const ExcludeSemantics(
               child: Text(
                 'Total',
-                style: null,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF212121),
+                ),
               ),
             ),
           ),
@@ -627,9 +673,10 @@ class _TotalPrice extends StatelessWidget {
                 child: ExcludeSemantics(
                   child: Text(
                     '€${total.toStringAsFixed(2)}',
-                    style: theme.textTheme.headlineSmall?.copyWith(
+                    style: const TextStyle(
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
+                      color: Color(0xFFF65858),
                     ),
                   ),
                 ),
