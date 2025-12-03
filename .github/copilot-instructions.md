@@ -28,4 +28,4 @@ Usa const constructors siempre que sea posible para mejorar el rendimiento.
 
 Preferimos ValueNotifier con ValueListenableBuilder para estado local y ChangeNotifier con ListenableBuilder para estado global.
 
-Los tests de accesibilidad están en test/accessibility_test.dart y deben actualizarse cuando se agregan o modifican widgets interactivos.
+Al agregar o modificar widgets interactivos, agrega tests de verificación semántica en test/accessibility_test.dart que verifiquen las propiedades Semantics (button, label, hint, liveRegion, etc.).
