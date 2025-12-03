@@ -38,10 +38,26 @@ void main() {
         (widget) =>
             widget is Semantics &&
             widget.properties.header == true &&
-            widget.properties.label == 'Eventos Disponibles',
+            widget.properties.label == 'Eventos',
       );
 
       expect(headerFinder, findsOneWidget);
+    });
+
+    testWidgets('Section headers have semantic labels', (WidgetTester tester) async {
+      await tester.pumpWidget(const EventBookingApp());
+      await tester.pumpAndSettle();
+
+      // Find section header Semantics widgets
+      final sectionHeaderFinder = find.byWidgetPredicate(
+        (widget) =>
+            widget is Semantics &&
+            widget.properties.header == true &&
+            (widget.properties.label == 'Top picks for you' ||
+             widget.properties.label == 'Upcoming events'),
+      );
+
+      expect(sectionHeaderFinder, findsWidgets);
     });
 
     testWidgets('Event images have semantic labels', (WidgetTester tester) async {
