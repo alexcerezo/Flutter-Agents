@@ -60,8 +60,16 @@ class _EventBookingAppState extends State<EventBookingApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+          seedColor: const Color(0xFFF65858), // Meetup red/pink accent
           brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: const Color(0xFFFAFAFA), // Light gray background
+        cardTheme: CardTheme(
+          elevation: 1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          color: Colors.white,
         ),
         useMaterial3: true,
       ),
