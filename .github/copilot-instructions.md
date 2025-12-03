@@ -129,6 +129,8 @@ Para contenido que cambia dinámicamente y debe anunciarse:
 // Contador que anuncia cambios
 // ⚠️ Consideración de rendimiento: Las live regions anuncian cada cambio.
 // Para actualizaciones frecuentes, considera debouncing o throttling.
+
+// ✅ Opción 1: Cambios poco frecuentes (como contador de tickets)
 ValueListenableBuilder<int>(
   valueListenable: ticketCount,
   builder: (context, count, _) {
@@ -144,6 +146,58 @@ ValueListenableBuilder<int>(
     );
   },
 )
+
+// ✅ Opción 2: Cambios frecuentes (con debouncing)
+class DebouncedLiveRegion extends StatefulWidget {
+  final String Function() getLabelText;
+  final Widget child;
+  
+  const DebouncedLiveRegion({
+    required this.getLabelText,
+    required this.child,
+    super.key,
+  });
+  
+  @override
+  State<DebouncedLiveRegion> createState() => _DebouncedLiveRegionState();
+}
+
+class _DebouncedLiveRegionState extends State<DebouncedLiveRegion> {
+  Timer? _debounceTimer;
+  String _currentLabel = '';
+  
+  void _updateLabel() {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() {
+          _currentLabel = widget.getLabelText();
+        });
+      }
+    });
+  }
+  
+  @override
+  void didUpdateWidget(DebouncedLiveRegion oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateLabel();
+  }
+  
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: _currentLabel,
+      liveRegion: true,
+      child: widget.child,
+    );
+  }
+}
 
 // Precio total que se actualiza
 // Nota: Solo usa liveRegion si el usuario necesita conocer cambios inmediatos
