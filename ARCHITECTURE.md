@@ -31,21 +31,29 @@ This is a Flutter event booking application built with Clean Architecture princi
 ### 3. Presentation Layer
 
 #### Home Page (`lib/events_home_page.dart`)
-**Responsive event list** with adaptive grid:
-- `EventsHomePage`: Main container widget
-- `_ResponsiveEventGrid`: Adaptive grid (1-4 columns based on screen width)
-- `_EventCard`: Individual event card component
+**Meetup-style sectioned layout** with horizontal and vertical scrolling:
+- `EventsHomePage`: Main container widget with Meetup-inspired AppBar
+- `_MeetupStyleLayout`: Sectioned layout with "Top picks" and "Upcoming events"
+- `_SectionHeader`: Section headers with icons (header: true for accessibility)
+- `_HorizontalEventList`: Horizontal scrolling carousel for featured events
+- `_VerticalEventList`: Vertical list for upcoming events
+- `_MeetupEventCard`: Individual event card component matching Meetup design
 
-**Responsive Breakpoints:**
-- Mobile (< 600px): 1 column
-- Tablet (600-800px): 2 columns
-- Desktop (800-1200px): 3 columns
-- Large Desktop (> 1200px): 4 columns
+**Design Features (Meetup-style):**
+- Light gray background (#FAFAFA) for page
+- White cards with subtle shadows (elevation: 1)
+- Red/pink accent color (#F65858) for primary actions and highlights
+- Sectioned content with clear visual hierarchy
+- Horizontal scrolling for featured content (like Meetup's "Top picks")
+- Date badges overlaid on event images
+- Attendee count display instead of just availability
+- Rounded corners and modern card design
 
 **Performance Optimizations:**
 - `ListenableBuilder` for efficient rebuilds
 - `const` constructors wherever possible
-- Lazy loading with `GridView.builder`
+- `ListView.builder` for lazy loading in both horizontal and vertical lists
+- Minimal widget rebuilds with strategic use of ExcludeSemantics
 
 #### Event Detail Page (`lib/event_detail_page.dart`)
 **Detailed event view with booking functionality:**
@@ -165,6 +173,39 @@ Recommended stages:
 - `flutter`: Framework
 - `intl`: ^0.18.0 (date formatting)
 - `cupertino_icons`: ^1.0.2 (iOS icons)
+
+## Design System (Meetup-inspired)
+
+### Color Palette
+- **Primary Accent**: #F65858 (Meetup red/pink) - Used for buttons, icons, highlights
+- **Background**: #FAFAFA (Light gray) - Main page background
+- **Card Background**: #FFFFFF (White) - Card surfaces
+- **Text Primary**: #212121 (Dark gray) - Main text and titles
+- **Text Secondary**: #757575 (Medium gray) - Secondary text, captions
+- **Border/Divider**: #E0E0E0 (Light gray) - Borders and subtle dividers
+- **Error Container**: #FFF5F5 with #FFE0E0 border - Error states and availability info
+
+### Typography Hierarchy
+- **Page Title**: 22px, Bold, #212121
+- **Card Title**: 16px, Bold, #212121
+- **Section Header**: 22px, Bold, #212121
+- **Date Badge**: 20px (number), 10px (day), Bold
+- **Body Text**: 16px, Regular, #424242
+- **Caption**: 12-14px, Regular, #757575
+
+### Spacing & Layout
+- **Card Padding**: 16px
+- **Section Spacing**: 32px between sections
+- **Card Margins**: 16px horizontal, 16px between cards
+- **Card Border Radius**: 8px
+- **Element Spacing**: 8-12px between related elements
+
+### Component Styling
+- **Cards**: White background, 1px elevation, 8px border radius
+- **Date Badges**: White with shadow, positioned on top-left of images
+- **Icons**: 22-28px, Meetup red color for primary actions
+- **Buttons**: Filled with primary color, 16px vertical padding
+- **Images**: AspectRatio 16:9 (horizontal) or 4:3 (vertical)
 
 ## Code Style
 
