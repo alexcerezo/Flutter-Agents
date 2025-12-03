@@ -64,10 +64,10 @@ class _EventBookingAppState extends State<EventBookingApp> {
           brightness: Brightness.light,
         ),
         scaffoldBackgroundColor: const Color(0xFFFAFAFA), // Light gray background
-        cardTheme: CardTheme(
+        cardTheme: const CardThemeData(
           elevation: 1,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           color: Colors.white,
         ),
