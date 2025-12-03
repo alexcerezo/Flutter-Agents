@@ -23,12 +23,14 @@ Esta aplicación cumple con:
 
 ```dart
 // Botón con semántica completa
+// Nota: FilledButton requiere Material 3 (Flutter 3.7+)
+// Alternativa: ElevatedButton para versiones anteriores
 Semantics(
   button: true,
   label: 'Confirmar Reserva',  // Identifica el elemento
   hint: 'Confirma la reserva de las entradas seleccionadas',  // Explica la acción
   enabled: canBook,  // Estado del botón
-  child: FilledButton(
+  child: FilledButton(  // O ElevatedButton para Flutter < 3.7
     onPressed: canBook ? _handleBooking : null,
     child: const Text('Confirmar Reserva'),
   ),
@@ -125,6 +127,8 @@ Para contenido que cambia dinámicamente y debe anunciarse:
 
 ```dart
 // Contador que anuncia cambios
+// ⚠️ Consideración de rendimiento: Las live regions anuncian cada cambio.
+// Para actualizaciones frecuentes, considera debouncing o throttling.
 ValueListenableBuilder<int>(
   valueListenable: ticketCount,
   builder: (context, count, _) {
@@ -142,6 +146,7 @@ ValueListenableBuilder<int>(
 )
 
 // Precio total que se actualiza
+// Nota: Solo usa liveRegion si el usuario necesita conocer cambios inmediatos
 Semantics(
   label: '€${total.toStringAsFixed(2)}',
   liveRegion: true,
@@ -286,6 +291,7 @@ Cada PR **DEBE** incluir tests de accesibilidad para nuevos widgets:
 ```dart
 testWidgets('Event card has proper semantic labels', (tester) async {
   await tester.pumpWidget(MaterialApp(home: EventCard(event: testEvent)));
+  await tester.pumpAndSettle();  // Espera a que completen animaciones y operaciones async
   
   // Verificar que el widget tenga semántica de botón
   final semanticsFinder = find.byWidgetPredicate(
@@ -301,6 +307,7 @@ testWidgets('Event card has proper semantic labels', (tester) async {
 
 testWidgets('Live regions announce changes', (tester) async {
   await tester.pumpWidget(MaterialApp(home: TicketCounter()));
+  await tester.pumpAndSettle();  // Importante para tests semánticos
   
   final liveRegionFinder = find.byWidgetPredicate(
     (widget) =>
@@ -313,6 +320,7 @@ testWidgets('Live regions announce changes', (tester) async {
 
 testWidgets('Images have descriptive labels', (tester) async {
   await tester.pumpWidget(MaterialApp(home: EventDetailPage(event: testEvent)));
+  await tester.pumpAndSettle();  // Espera a que carguen todos los elementos
   
   final imageFinder = find.byWidgetPredicate(
     (widget) =>
