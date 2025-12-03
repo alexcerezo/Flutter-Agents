@@ -22,7 +22,7 @@ El área mínima de toque para elementos interactivos es 48x48 dp según Materia
 
 Para revisiones especializadas de accesibilidad, delega al agente @SemantiDash cuando trabajes en widgets de UI o cambios que afecten la experiencia del usuario.
 
-Escribe código en español para mantener consistencia con la base de código existente (nombres de variables, comentarios, strings de UI).
+Los strings de UI (textos visibles para el usuario) deben estar en español; el código (nombres de variables, funciones, comentarios) debe estar en inglés siguiendo las convenciones estándar de Dart/Flutter.
 
 Usa const constructors siempre que sea posible para mejorar el rendimiento.
 
