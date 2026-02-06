@@ -566,15 +566,17 @@ class _TicketCounter extends StatelessWidget {
                 button: true,
                 label: 'Disminuir número de entradas',
                 enabled: ticketCountNotifier.value > 1,
-                child: IconButton(
-                  onPressed: () {
-                    if (ticketCountNotifier.value > 1) {
-                      ticketCountNotifier.value--;
-                    }
-                  },
-                  icon: const Icon(Icons.remove_circle_outline),
-                  color: const Color(0xFFF65858),
-                  iconSize: 28,
+                child: ExcludeSemantics(
+                  child: IconButton(
+                    onPressed: () {
+                      if (ticketCountNotifier.value > 1) {
+                        ticketCountNotifier.value--;
+                      }
+                    },
+                    icon: const Icon(Icons.remove_circle_outline),
+                    color: const Color(0xFFF65858),
+                    iconSize: 28,
+                  ),
                 ),
               ),
               ValueListenableBuilder<int>(
@@ -604,15 +606,17 @@ class _TicketCounter extends StatelessWidget {
                 button: true,
                 label: 'Aumentar número de entradas',
                 enabled: ticketCountNotifier.value < maxTickets,
-                child: IconButton(
-                  onPressed: () {
-                    if (ticketCountNotifier.value < maxTickets) {
-                      ticketCountNotifier.value++;
-                    }
-                  },
-                  icon: const Icon(Icons.add_circle_outline),
-                  color: const Color(0xFFF65858),
-                  iconSize: 28,
+                child: ExcludeSemantics(
+                  child: IconButton(
+                    onPressed: () {
+                      if (ticketCountNotifier.value < maxTickets) {
+                        ticketCountNotifier.value++;
+                      }
+                    },
+                    icon: const Icon(Icons.add_circle_outline),
+                    color: const Color(0xFFF65858),
+                    iconSize: 28,
+                  ),
                 ),
               ),
             ],
