@@ -100,7 +100,7 @@ class _MeetupStyleLayout extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Featured section
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Top picks for you',
             icon: Icons.star_rounded,
           ),
@@ -112,7 +112,7 @@ class _MeetupStyleLayout extends StatelessWidget {
           const SizedBox(height: 32),
           
           // Upcoming section
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Upcoming events',
             icon: Icons.event,
           ),
